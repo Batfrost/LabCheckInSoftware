@@ -10,17 +10,16 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace LabCheckInSoftware
 {
     /// <summary>
-    /// Interaction logic for ManagerHomePage.xaml
+    /// Interaction logic for SettingsWindow.xaml
     /// </summary>
-    public partial class ManagerHomePage : Page
+    public partial class SettingsWindow : Window
     {
-        public ManagerHomePage()
+        public SettingsWindow()
         {
             InitializeComponent();
         }

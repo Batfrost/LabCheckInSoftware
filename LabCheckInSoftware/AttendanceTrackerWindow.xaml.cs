@@ -10,17 +10,16 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace LabCheckInSoftware
 {
     /// <summary>
-    /// Interaction logic for AttendanceTrackerPage.xaml
+    /// Interaction logic for AttendanceTrackerWindow.xaml
     /// </summary>
-    public partial class AttendanceTrackerPage : Page
+    public partial class AttendanceTrackerWindow : Window
     {
-        public AttendanceTrackerPage()
+        public AttendanceTrackerWindow()
         {
             InitializeComponent();
         }

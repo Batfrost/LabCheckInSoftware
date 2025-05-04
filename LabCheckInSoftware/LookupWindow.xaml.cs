@@ -10,17 +10,16 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace LabCheckInSoftware
 {
     /// <summary>
-    /// Interaction logic for LookupPage.xaml
+    /// Interaction logic for LookupWindow.xaml
     /// </summary>
-    public partial class LookupPage : Page
+    public partial class LookupWindow : Window
     {
-        public LookupPage()
+        public LookupWindow()
         {
             InitializeComponent();
         }
