@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Globalization;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -19,6 +20,11 @@ namespace LabCheckInSoftware
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void CheckInBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
         }
     }
 }
