@@ -5,8 +5,164 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LabCheckInSoftware"
         mc:Ignorable="d"
-        Title="SettingsWindow" Height="450" Width="800">
+        Title="TWLogging: Settings" Height="450" Width="800">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="5*"/>
+            </Grid.RowDefinitions>
+            <Viewbox Grid.Row="0" Grid.Column="1" Stretch="Uniform">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Content="Settings" Height="auto" VerticalAlignment="Top"  Width="auto" HorizontalAlignment="Center"/>
+                    <Line Grid.Row="1" X1="-1000" X2="1000" Stroke="Black" HorizontalAlignment="Center" VerticalAlignment="Top" Width="100"/>
+                </Grid>
+            </Viewbox>
+
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="2*"/>
+                    </Grid.RowDefinitions>
+                    <Viewbox Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="Uniform">
+                        <Label Content="Change Password"/>
+                    </Viewbox>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Viewbox Grid.Row="0" Grid.Column="0" Stretch="Uniform" HorizontalAlignment="Right">
+                            <Label Content="Enter Old Password:"/>
+                        </Viewbox>
+                        <Viewbox Grid.Row="0" Grid.Column="1" Stretch="Uniform" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <PasswordBox x:Name="OldPasswordBox" BorderThickness="1" Width="100" Margin="5,3,0,3"/>
+                        </Viewbox>
+                        <Viewbox Grid.Row="1" Grid.Column="0" Stretch="Uniform" HorizontalAlignment="Right">
+                            <Label Content="Enter New Password:"/>
+                        </Viewbox>
+                        <Viewbox Grid.Row="1" Grid.Column="1" Stretch="Uniform" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <PasswordBox x:Name="NewPasswordBox" BorderThickness="1" Width="100" Margin="5,3,0,3"/>
+                        </Viewbox>
+                        <Viewbox Grid.Row="2" Grid.Column="0" Stretch="Uniform" HorizontalAlignment="Right">
+                            <Label Content="Confirm New Password:"/>
+                        </Viewbox>
+                        <Viewbox Grid.Row="2" Grid.Column="1" Stretch="Uniform" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <PasswordBox x:Name="ConfirmPasswordBox" BorderThickness="1" Width="100" Margin="5,3,0,3"/>
+                        </Viewbox>
+                    </Grid>
+
+                </Grid>
+
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="5*"/>
+                    </Grid.RowDefinitions>
+                    <Viewbox Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="Uniform">
+                        <Label Content="Customize Signup Page"/>
+                    </Viewbox>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="3*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Viewbox Grid.Row="0" Stretch="Uniform">
+                            <Label Content="Text a new user sees (e.g. rules, info, etc.)"/>
+                        </Viewbox>
+                        <Viewbox x:Name ="v" Grid.Row="1" Stretch="Uniform">
+                            <TextBox x:Name="SignupInfoTextBox" TextWrapping="Wrap" Height="{Binding ActualHeight, ElementName=v}" Text="" Width="400"/>
+                        </Viewbox>
+                        <Viewbox Grid.Row="2" Stretch="Uniform">
+                            <Label Content="Specific info to request a new user. Will be displayed on home page for checked-in users (unless empty)."/>
+                        </Viewbox>
+                        <Viewbox Grid.Row="3" Stretch="Uniform">
+                            <Label Content="Warning: If there are users already signed up, whatever requested info they may have filled out before will not reflect a new change."/>
+                        </Viewbox>
+                        <Grid Grid.Row="4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Viewbox Grid.Column="0" Stretch="Uniform">
+                                <TextBox x:Name="InfoField1TextBox" Width="50"/>
+                            </Viewbox>
+                            <Viewbox Grid.Column="1" Stretch="Uniform">
+                                <TextBox x:Name="InfoField2TextBox" Width="50"/>
+                            </Viewbox>
+                        </Grid>
+                    </Grid>
+
+                </Grid>
+
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="2*"/>
+                    </Grid.RowDefinitions>
+                    <Viewbox Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="Uniform">
+                        <Label Content="Confirm Changes"/>
+                    </Viewbox>
+
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Viewbox Grid.Column="0" Grid.Row="1" Stretch="Uniform">
+                            <Button x:Name="CancelButton" Content="Cancel Changes"/>
+                        </Viewbox>
+                        <Viewbox Grid.Column="1" Grid.Row="1" Stretch="Uniform">
+                            <Button x:Name="ConfirmButton" Content="Confirm + Apply"/>
+                        </Viewbox>
+                    </Grid>
+
+                </Grid>
+            </Grid>
+        </Grid>
     </Grid>
 </Window>
