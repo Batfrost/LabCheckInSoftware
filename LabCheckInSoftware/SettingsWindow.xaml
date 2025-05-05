@@ -9,13 +9,13 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="3*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="5*"/>
+                <RowDefinition Height="6*"/>
             </Grid.RowDefinitions>
             <Viewbox Grid.Row="0" Grid.Column="1" Stretch="Uniform">
                 <Grid>
@@ -107,7 +107,7 @@
                             <Label Content="Text a new user sees (e.g. rules, info, etc.)"/>
                         </Viewbox>
                         <Viewbox x:Name ="v" Grid.Row="1" Stretch="Uniform">
-                            <TextBox x:Name="SignupInfoTextBox" TextWrapping="Wrap" Height="{Binding ActualHeight, ElementName=v}" Text="" Width="400"/>
+                            <TextBox x:Name="SignupInfoTextBox" TextWrapping="Wrap" Height="{Binding ActualHeight, ElementName=v}" Text="" MinWidth="400"/>
                         </Viewbox>
                         <Viewbox Grid.Row="2" Stretch="Uniform">
                             <Label Content="Specific info to request a new user. Will be displayed on home page for checked-in users (unless empty)."/>
@@ -121,10 +121,10 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Viewbox Grid.Column="0" Stretch="Uniform">
-                                <TextBox x:Name="InfoField1TextBox" Width="50"/>
+                                <TextBox x:Name="InfoField1TextBox" MinWidth="75"/>
                             </Viewbox>
                             <Viewbox Grid.Column="1" Stretch="Uniform">
-                                <TextBox x:Name="InfoField2TextBox" Width="50"/>
+                                <TextBox x:Name="InfoField2TextBox" MinWidth="75"/>
                             </Viewbox>
                         </Grid>
                     </Grid>
