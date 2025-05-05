@@ -105,7 +105,7 @@
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
                         <Viewbox Grid.Row="0" Stretch="Uniform">
-                            <Label Content="Text a new user sees (e.g. rules, info, etc.) when first signing up to start checking in."/>
+                            <Label Content="Text a new user sees (e.g. rules, info, etc.) for a User Agreement Page the user will agree to."/>
                         </Viewbox>
                         <Viewbox x:Name ="v" Grid.Row="1" Stretch="Uniform">
                             <TextBox x:Name="SignupInfoTextBox" TextWrapping="Wrap" Height="{Binding ActualHeight, ElementName=v}" MinWidth="400" Text=""/>
