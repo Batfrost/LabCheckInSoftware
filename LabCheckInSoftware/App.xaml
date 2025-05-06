@@ -1,7 +1,7 @@
-﻿<Application x:Class="LabCheckInSoftware.App"
+﻿<Application x:Class="TWLogging.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:LabCheckInSoftware"
+             xmlns:local="clr-namespace:TWLogging"
              StartupUri="SetupWindow.xaml"
              ShutdownMode="OnLastWindowClose">
     <Application.Resources>

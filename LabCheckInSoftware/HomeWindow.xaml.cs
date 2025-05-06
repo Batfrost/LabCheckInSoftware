@@ -10,7 +10,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace LabCheckInSoftware
+namespace TWLogging
 {
     /// <summary>
     /// Interaction logic for HomeWindow.xaml

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LabCheckInSoftware
+namespace TWLogging
 {
     public static class CheckIn
     {

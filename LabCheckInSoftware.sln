@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35931.197 d17.13
+VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LabCheckInSoftware", "LabCheckInSoftware\LabCheckInSoftware.csproj", "{57E365C1-8330-491C-A748-A5AB8F9030C6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TWLogging", "LabCheckInSoftware\TWLogging.csproj", "{57E365C1-8330-491C-A748-A5AB8F9030C6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

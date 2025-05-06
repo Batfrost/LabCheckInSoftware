@@ -1,7 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace LabCheckInSoftware
+
+namespace TWLogging
 {
     /// <summary>
     /// Interaction logic for SetupWindow.xaml

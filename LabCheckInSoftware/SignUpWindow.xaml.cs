@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace LabCheckInSoftware
+namespace TWLogging
 {
     /// <summary>
     /// Interaction logic for SignUpWindow.xaml
@@ -40,12 +40,21 @@ namespace LabCheckInSoftware
 
         private void AgreeButton_Click(object sender, RoutedEventArgs e)
         {
-
+            Signup.AddNewUser(uIDBox.Text, FirstNameBox.Text, LastNameBox.Text, InfoField1Box.Text, InfoField2Box.Text);
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-
+            var HW = new HomeWindow
+            {
+                WindowStartupLocation = this.WindowStartupLocation,
+                Width = this.Width,
+                Height = this.Height,
+                WindowState = this.WindowState,
+                WindowStyle = this.WindowStyle
+            };
+            HW.Show();
+            this.Close();
         }
     }
 }

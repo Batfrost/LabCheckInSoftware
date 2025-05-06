@@ -1,5 +1,5 @@
 ﻿
-namespace LabCheckInSoftware
+namespace TWLogging
 {
     /// <summary>
     /// This class will control the Settings file for the software, which will manage:
@@ -8,17 +8,17 @@ namespace LabCheckInSoftware
     /// </summary>
     internal static class SettingsController
     {
-        public static string saveFileLocation = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + "\\TWLogging\\";
+        public static string SaveFileLocation = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + "\\TWLogging\\";
 
         /// <summary>
         /// Will create the Settings file based on the info given from the SetupWindow
         /// </summary>
         public static void EstablishSettings(string password, string userAgreementText, string? infoField1, string? infoField2)
         {
-            if (!System.IO.Directory.Exists(saveFileLocation))
-                System.IO.Directory.CreateDirectory(saveFileLocation.Substring(0, saveFileLocation.LastIndexOf('\\')));
+            if (!System.IO.Directory.Exists(SaveFileLocation))
+                System.IO.Directory.CreateDirectory(SaveFileLocation.Substring(0, SaveFileLocation.LastIndexOf('\\')));
             string settings = "P: " + password + "\nUAT: " + userAgreementText + "\nIF1: " + infoField1 + "\nIF2: " + infoField2;
-            System.IO.File.WriteAllText(saveFileLocation + "Settings.config", EncryptText(settings));
+            System.IO.File.WriteAllText(SaveFileLocation + "Settings.config", EncryptText(settings));
         }
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace LabCheckInSoftware
         {
             try
             {
-                string settings = DecryptText(System.IO.File.ReadAllText(saveFileLocation + "Settings.config"));
+                string settings = DecryptText(System.IO.File.ReadAllText(SaveFileLocation + "Settings.config"));
                 if (settings != null && settings.Contains("P: ") && settings.Contains("UAT: ") && settings.Contains("IF1: ") && settings.Contains("IF2: "))
                     return true;
                 return false;
@@ -44,9 +44,9 @@ namespace LabCheckInSoftware
         /// </summary>
         public static void ChangePassword(string newPassword)
         {
-            string settings = DecryptText(System.IO.File.ReadAllText(saveFileLocation + "Settings.config"));
+            string settings = DecryptText(System.IO.File.ReadAllText(SaveFileLocation + "Settings.config"));
             settings = "P: " + newPassword + settings.Substring(settings.IndexOf('\n'));
-            System.IO.File.WriteAllText(saveFileLocation + "Settings.config", EncryptText(settings));
+            System.IO.File.WriteAllText(SaveFileLocation + "Settings.config", EncryptText(settings));
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace LabCheckInSoftware
         /// </summary>
         public static bool CheckPassword(string pToCheck)
         {
-            string settings = DecryptText(System.IO.File.ReadAllText(saveFileLocation + "Settings.config"));
+            string settings = DecryptText(System.IO.File.ReadAllText(SaveFileLocation + "Settings.config"));
             string password = settings.Substring(3, settings.IndexOf("\n"));
 
             return pToCheck.Equals(password);
@@ -67,7 +67,7 @@ namespace LabCheckInSoftware
         {
             string[] infoFields = new string[2];
 
-            string settings = DecryptText(System.IO.File.ReadAllText(saveFileLocation + "Settings.config"));
+            string settings = DecryptText(System.IO.File.ReadAllText(SaveFileLocation + "Settings.config"));
             infoFields[0] = settings.Substring(settings.IndexOf("IF1: ") + 5).Split('\n')[0];
             infoFields[1] = settings.Substring(settings.IndexOf("IF2: ") + 5);
 
@@ -79,7 +79,7 @@ namespace LabCheckInSoftware
         /// </summary>
         public static string GetUserAgreementText()
         {
-            string settings = DecryptText(System.IO.File.ReadAllText(saveFileLocation + "Settings.config"));
+            string settings = DecryptText(System.IO.File.ReadAllText(SaveFileLocation + "Settings.config"));
             int firstIndex = settings.IndexOf("UAT: ") + 5;
             int lastIndex = settings.IndexOf("IF1: ") - firstIndex;
             return settings.Substring(firstIndex, lastIndex);
