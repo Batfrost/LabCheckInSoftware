@@ -10,6 +10,20 @@ namespace LabCheckInSoftware
     {
         public SetupWindow()
         {
+            //If settings already exist, just skip to the HomeWindow
+            if (SettingsController.CheckForSettings())
+            {
+                var HW = new HomeWindow
+                {
+                    WindowStartupLocation = this.WindowStartupLocation,
+                    Width = this.Width,
+                    Height = this.Height,
+                    WindowState = this.WindowState,
+                    WindowStyle = this.WindowStyle
+                };
+                HW.Show();
+                this.Close();
+            }
             InitializeComponent();
         }
 

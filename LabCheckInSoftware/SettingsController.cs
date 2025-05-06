@@ -22,13 +22,29 @@ namespace LabCheckInSoftware
         }
 
         /// <summary>
+        /// Checks if settings are established or not, for the purpose of skipping the Setup stuff if already setup.
+        /// Also makes sure that the settings contain all necessary info.
+        /// </summary>
+        public static bool CheckForSettings()
+        {
+            try
+            {
+                string settings = DecryptText(System.IO.File.ReadAllText(saveFileLocation + "Settings.config"));
+                if (settings != null && settings.Contains("P: ") && settings.Contains("UAT: ") && settings.Contains("IF1: ") && settings.Contains("IF2: "))
+                    return true;
+                return false;
+            }
+            catch { return false; }
+        }
+
+        /// <summary>
         /// Replaces the password in the settings file with the given new password.
         /// Again, this is very bad software practice for actually dealing with a password,
         /// but for the purposes of this software, great password safety isn't very necessary
         /// </summary>
         public static void ChangePassword(string newPassword)
         {
-            string settings = DecryptText(saveFileLocation + "Settings.config");
+            string settings = DecryptText(System.IO.File.ReadAllText(saveFileLocation + "Settings.config"));
             settings = "P: " + newPassword + settings.Substring(settings.IndexOf('\n'));
             System.IO.File.WriteAllText(saveFileLocation + "Settings.config", EncryptText(settings));
         }
@@ -38,7 +54,7 @@ namespace LabCheckInSoftware
         /// </summary>
         public static bool CheckPassword(string pToCheck)
         {
-            string settings = DecryptText(saveFileLocation + "Settings.config");
+            string settings = DecryptText(System.IO.File.ReadAllText(saveFileLocation + "Settings.config"));
             string password = settings.Substring(3, settings.IndexOf("\n"));
 
             return pToCheck.Equals(password);
@@ -51,7 +67,7 @@ namespace LabCheckInSoftware
         {
             string[] infoFields = new string[2];
 
-            string settings = DecryptText(saveFileLocation + "Settings.config");
+            string settings = DecryptText(System.IO.File.ReadAllText(saveFileLocation + "Settings.config"));
             infoFields[0] = settings.Substring(settings.IndexOf("IF1: ") + 5).Split('\n')[0];
             infoFields[1] = settings.Substring(settings.IndexOf("IF2: ") + 5);
 
@@ -63,8 +79,10 @@ namespace LabCheckInSoftware
         /// </summary>
         public static string GetUserAgreementText()
         {
-            string settings = DecryptText(saveFileLocation + "Settings.config");
-            return settings.Substring(settings.IndexOf('\n'), settings.IndexOf("IF1: "));
+            string settings = DecryptText(System.IO.File.ReadAllText(saveFileLocation + "Settings.config"));
+            int firstIndex = settings.IndexOf("UAT: ") + 5;
+            int lastIndex = settings.IndexOf("IF1: ") - firstIndex;
+            return settings.Substring(firstIndex, lastIndex);
         }
 
         /// <summary>
@@ -98,8 +116,7 @@ namespace LabCheckInSoftware
                 decryptedText += text[text.Length - 2];
                 text = text.Substring(0, text.Length - 3);
             }
-            if (decryptedText[0] != '{')
-                decryptedText = "{" + decryptedText;
+
             return decryptedText;
         }
     }

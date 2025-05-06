@@ -36,10 +36,12 @@
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
                 <Viewbox Grid.Row="0" Stretch="Uniform" HorizontalAlignment="Left">
-                    <Label Content="User Agreement"/>
+                    <Label>
+                        <TextBlock TextDecorations="Underline">User Agreement</TextBlock>
+                    </Label>
                 </Viewbox>
                 <Viewbox x:Name="v" Grid.Row="1" Stretch="Uniform" VerticalAlignment="Top">
-                    <TextBlock x:Name="UserAgreementText" TextWrapping="Wrap" FontSize="12" Width="{Binding ActualWidth, ElementName=v}" Text=""/>
+                    <TextBlock x:Name="UserAgreementText" TextWrapping="Wrap" FontSize="12" MinWidth="400" MinHeight="100" Text=""/>
                 </Viewbox>
                 <Grid Grid.Row="2">
                     <Grid.ColumnDefinitions>

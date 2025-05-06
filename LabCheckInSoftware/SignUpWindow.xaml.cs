@@ -22,6 +22,20 @@ namespace LabCheckInSoftware
         public SignUpWindow()
         {
             InitializeComponent();
+
+            //Get the SignUpWindow's specific custom info from the SettingsController
+            UserAgreementText.Text = SettingsController.GetUserAgreementText();
+            string[] InfoFields = SettingsController.GetInfoFields();
+            if (InfoFields[0] != null && InfoFields[0].Length > 0)
+            {
+                InfoField1Label.Content = InfoFields[0] + ": ";
+                InfoField1Box.IsEnabled = true;
+            }
+            if (InfoFields[1] != null && InfoFields[1].Length > 0)
+            {
+                InfoField2Label.Content = InfoFields[1] + ": ";
+                InfoField2Box.IsEnabled = true;
+            }
         }
 
         private void AgreeButton_Click(object sender, RoutedEventArgs e)
