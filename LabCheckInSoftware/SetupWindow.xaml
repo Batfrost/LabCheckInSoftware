@@ -108,7 +108,7 @@
                             <Label Content="Text a new user sees (e.g. rules, info, etc.) for a User Agreement Page the user will agree to."/>
                         </Viewbox>
                         <Viewbox x:Name ="v" Grid.Row="1" Stretch="Uniform">
-                            <TextBox x:Name="SignupInfoTextBox" TextWrapping="Wrap" Height="{Binding ActualHeight, ElementName=v}" MinWidth="400" Text=""/>
+                            <TextBox x:Name="SignupInfoTextBox" TextWrapping="Wrap" MinHeight="50" MinWidth="400" Text=""/>
                         </Viewbox>
                         <Viewbox Grid.Row="2" Stretch="Uniform">
                             <Label Content="Specific info to request a new user. Will be displayed on home page for checked-in users (unless empty)."/>
@@ -154,7 +154,7 @@
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
                         <Viewbox Grid.Row="1" Stretch="Uniform">
-                            <Button x:Name="ConfirmButton" Content="Confirm + Apply"/>
+                            <Button x:Name="ConfirmButton" Content="Confirm + Apply" Click="ConfirmButton_Click"/>
                         </Viewbox>
                     </Grid>
 

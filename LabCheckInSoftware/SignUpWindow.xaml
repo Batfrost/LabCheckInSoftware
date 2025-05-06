@@ -107,10 +107,10 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Viewbox Grid.Row="1" Grid.Column="0" Stretch="Uniform">
-                        <Button x:Name="CancelButton" Content="Cancel"/>
+                        <Button x:Name="CancelButton" Content="Cancel" Click="CancelButton_Click"/>
                     </Viewbox>
                     <Viewbox Grid.Row="1" Grid.Column="1" Stretch="Uniform">
-                        <Button x:Name="AgreeButton" Content="Agree"/>
+                        <Button x:Name="AgreeButton" Content="Agree" Click="AgreeButton_Click"/>
                     </Viewbox>
                 </Grid>
             </Grid>

@@ -23,5 +23,15 @@ namespace LabCheckInSoftware
         {
             InitializeComponent();
         }
+
+        private void AgreeButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
