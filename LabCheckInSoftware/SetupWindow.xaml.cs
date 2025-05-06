@@ -8,19 +8,9 @@ namespace LabCheckInSoftware
     /// </summary>
     public partial class SetupWindow : Window
     {
-        Window warningPopup = new Window();
-
         public SetupWindow()
         {
             InitializeComponent();
-        }
-
-        //Doubly makes sure that when the settings window is closed, any child windows (the popup window in this case from the ConfirmButton_Click) are also closed.
-        protected override void OnClosed(EventArgs e)
-        {
-            base.OnClosed(e);
-
-            Application.Current.Shutdown();
         }
 
         /// <summary>
@@ -30,7 +20,7 @@ namespace LabCheckInSoftware
         private void ConfirmButton_Click(object sender, RoutedEventArgs e)
         {
             //Establish the new window that will serve as the popup for telling user if something still needs to be filled out or not
-            warningPopup = new Window() { Width = 500, Height = 200 };
+            Window warningPopup = new Window() { Width = 500, Height = 200 };
             Grid popupGrid = new Grid();
             warningPopup.Content = popupGrid;
             popupGrid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
@@ -41,7 +31,9 @@ namespace LabCheckInSoftware
             v0.Child = popupText;
             popupGrid.Children.Add(v0);
             Grid.SetRow(v0, 0);
-            
+            Button closeButton = new Button() { Content = "Okay" };
+            closeButton.Click += PopupCloseButton_Click;
+
             //Check if a password has been entered, and confirm both password boxes match
             if (PasswordBox.Password.Length == 0)
                 popupText.Text += "Please create a password.\n";
@@ -56,22 +48,37 @@ namespace LabCheckInSoftware
             if (popupText.Text.Length > 0)
             {
                 Viewbox v1 = new Viewbox() { HorizontalAlignment = HorizontalAlignment.Center, Stretch = System.Windows.Media.Stretch.Uniform };
-                Button closeButton = new Button() { Content = "Okay" };
-                closeButton.Click += PopupCloseButton_Click;
                 //v1.Child = closeButton;
                 popupGrid.Children.Add(closeButton);
                 Grid.SetRow(closeButton, 1);
                 warningPopup.ShowDialog();
+                return; //Don't establish settings if something isn't correct
             }
             
             //Establish settings
-
+            SettingsController.EstablishSettings(PasswordBox.Password, SignupInfoTextBox.Text, InfoField1TextBox.Text, InfoField2TextBox.Text);
+            var HW = new HomeWindow
+            {
+                WindowStartupLocation = this.WindowStartupLocation,
+                Width = this.Width,
+                Height = this.Height,
+                WindowState = this.WindowState,
+                WindowStyle = this.WindowStyle
+            };
+            HW.Show();
+            //Doubly make sure everything is disconnected and shut down
+            if (closeButton != null) closeButton.Click -= PopupCloseButton_Click;
+            if (warningPopup != null) warningPopup.Close();
+            this.Close();
         }
 
         //Private handler for the new popup window's button to close the window 
         private void PopupCloseButton_Click(object sender, RoutedEventArgs e)
         {
-            warningPopup.Close();
+            var button = sender as Button;
+            button!.Click -= PopupCloseButton_Click;
+            var win = Window.GetWindow(button);
+            win.Close();
         }
 
     }

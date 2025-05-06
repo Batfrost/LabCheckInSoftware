@@ -1,0 +1,106 @@
+﻿
+namespace LabCheckInSoftware
+{
+    /// <summary>
+    /// This class will control the Settings file for the software, which will manage:
+    ///     -the password (not great practice, I know),
+    ///     -the information for the Sign Up page
+    /// </summary>
+    internal static class SettingsController
+    {
+        public static string saveFileLocation = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + "\\TWLogging\\";
+
+        /// <summary>
+        /// Will create the Settings file based on the info given from the SetupWindow
+        /// </summary>
+        public static void EstablishSettings(string password, string userAgreementText, string? infoField1, string? infoField2)
+        {
+            if (!System.IO.Directory.Exists(saveFileLocation))
+                System.IO.Directory.CreateDirectory(saveFileLocation.Substring(0, saveFileLocation.LastIndexOf('\\')));
+            string settings = "P: " + password + "\nUAT: " + userAgreementText + "\nIF1: " + infoField1 + "\nIF2: " + infoField2;
+            System.IO.File.WriteAllText(saveFileLocation + "Settings.config", EncryptText(settings));
+        }
+
+        /// <summary>
+        /// Replaces the password in the settings file with the given new password.
+        /// Again, this is very bad software practice for actually dealing with a password,
+        /// but for the purposes of this software, great password safety isn't very necessary
+        /// </summary>
+        public static void ChangePassword(string newPassword)
+        {
+            string settings = DecryptText(saveFileLocation + "Settings.config");
+            settings = "P: " + newPassword + settings.Substring(settings.IndexOf('\n'));
+            System.IO.File.WriteAllText(saveFileLocation + "Settings.config", EncryptText(settings));
+        }
+
+        /// <summary>
+        /// Compares the given password (pToCheck) with the actual stored password
+        /// </summary>
+        public static bool CheckPassword(string pToCheck)
+        {
+            string settings = DecryptText(saveFileLocation + "Settings.config");
+            string password = settings.Substring(3, settings.IndexOf("\n"));
+
+            return pToCheck.Equals(password);
+        }
+
+        /// <summary>
+        /// Finds and returns the custom info fields from settings
+        /// </summary>
+        public static string[] GetInfoFields()
+        {
+            string[] infoFields = new string[2];
+
+            string settings = DecryptText(saveFileLocation + "Settings.config");
+            infoFields[0] = settings.Substring(settings.IndexOf("IF1: ") + 5).Split('\n')[0];
+            infoFields[1] = settings.Substring(settings.IndexOf("IF2: ") + 5);
+
+            return infoFields;
+        }
+
+        /// <summary>
+        /// Finds and returns the text that makes up the user agreement from settings
+        /// </summary>
+        public static string GetUserAgreementText()
+        {
+            string settings = DecryptText(saveFileLocation + "Settings.config");
+            return settings.Substring(settings.IndexOf('\n'), settings.IndexOf("IF1: "));
+        }
+
+        /// <summary>
+        /// Encrypts given text to be unreadable to anyone who doesn't know how to decrypt.
+        /// Adds just a little bit of security to the system, so that the settings files aren't messed with.
+        /// </summary>
+        private static string EncryptText(String text)
+        {
+            Random r = new Random();
+            char[] chars = new char[10] { 'a', 't', 'k', 'l', 'w', 'q', 'p', 'P', 'A', 'T' };
+            string encryptedText = "";
+            for (int i = text.Length - 1; i >= 1; i -= 2)
+            {
+                encryptedText += text[i - 1];
+                encryptedText += text[i];
+                encryptedText += chars[r.Next(9)];
+            }
+
+            return encryptedText;
+        }
+
+        /// <summary>
+        /// Decrypts the text given that was specifically encrypted with the Encryption method above.
+        /// </summary>
+        private static string DecryptText(String text)
+        {
+            string decryptedText = "";
+            while (text.Length > 0)
+            {
+                decryptedText += text[text.Length - 3];
+                decryptedText += text[text.Length - 2];
+                text = text.Substring(0, text.Length - 3);
+            }
+            if (decryptedText[0] != '{')
+                decryptedText = "{" + decryptedText;
+            return decryptedText;
+        }
+    }
+}
