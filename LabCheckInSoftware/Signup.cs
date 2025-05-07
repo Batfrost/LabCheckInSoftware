@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace TWLogging
 {
     /// <summary>
@@ -29,14 +24,22 @@ namespace TWLogging
                 UsersFile = System.IO.File.ReadAllText(SettingsController.SaveFileLocation + "Users.csv");
             }
 
+            //Check if user already exists or not, and if they do, just return
+            if (Lookup.LookupUser(uID, null, null)[0] is not null)
+                return;
 
+            //Add the user's info and the date they registered as a new row into Users.csv
+            UsersFile += "\n" + uID + "," + fName + "," + lName + "," + infoField1 + "," + infoField2 + "," + DateTime.Now.ToString("MM/dd/yyyy");
+            System.IO.File.WriteAllText(SettingsController.SaveFileLocation + "Users.csv", UsersFile);
         }
 
         //Private helper for establishing a Users.csv file, a file that will have a header row of the following: UID, First Name,
         //Last Name, (Specific InfoField1 from Settings), (Specific InfoField2), followed by rows where each row makes up a user
         private static void CreateUsersFile()
         {
-
+            string[] InfoFields = SettingsController.GetInfoFields();
+            string UsersFile = "uID,First Name,Last Name," + InfoFields[0] + "," + InfoFields[1] + ",Date Registered";
+            System.IO.File.WriteAllText(SettingsController.SaveFileLocation + "Users.csv", UsersFile);
         }
     }
 }

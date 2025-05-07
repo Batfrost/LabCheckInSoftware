@@ -41,6 +41,16 @@ namespace TWLogging
         private void AgreeButton_Click(object sender, RoutedEventArgs e)
         {
             Signup.AddNewUser(uIDBox.Text, FirstNameBox.Text, LastNameBox.Text, InfoField1Box.Text, InfoField2Box.Text);
+            var HW = new HomeWindow
+            {
+                WindowStartupLocation = this.WindowStartupLocation,
+                Width = this.Width,
+                Height = this.Height,
+                WindowState = this.WindowState,
+                WindowStyle = this.WindowStyle
+            };
+            HW.Show();
+            this.Close();
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)

@@ -43,6 +43,7 @@ namespace TWLogging
                     SUW.Show();
                     this.Close();
                 }
+                CheckInTextBox.Text = "";
             }
         }
     }
