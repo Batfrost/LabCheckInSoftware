@@ -11,7 +11,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="3*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -38,22 +38,35 @@
         <Viewbox Grid.Row="1" Grid.Column="1" Stretch="Uniform">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" MinHeight="100"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Label Grid.Column="0" Grid.Row="0" Content="Enter uID To Check In:" Width="132" Height="23" />
-                <TextBox
-                    Grid.Column="1"
-                    Grid.Row="0"
-                    x:Name="CheckInTextBox"
-                    MaxLength="8"
-                    TextAlignment="Center"
-                    AcceptsReturn="True" TextChanged="CheckInBox_TextChanged"
-                    BorderBrush="Black"  Width="80" Height="20" />
+                <Viewbox Grid.Row="0" Stretch="Uniform" VerticalAlignment="Top" Margin="0,-42,0,0">
+                    <Label x:Name="WhoLoggedInLabel" MinWidth="132" MinHeight="23" Content="" />
+                </Viewbox>
+
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" MinHeight="100"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Grid.Row="0" Content="Enter uID To Check In:" Width="132" Height="23" />
+                    <TextBox
+                        Grid.Column="1"
+                        Grid.Row="0"
+                        x:Name="CheckInTextBox"
+                        MaxLength="8"
+                        TextAlignment="Center"
+                        AcceptsReturn="True" TextChanged="CheckInBox_TextChanged"
+                        BorderBrush="Black"  Width="80" Height="20" />
+                </Grid>
             </Grid>
 
         </Viewbox>

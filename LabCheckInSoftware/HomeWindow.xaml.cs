@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace TWLogging
 {
@@ -17,8 +18,12 @@ namespace TWLogging
     /// </summary>
     public partial class HomeWindow : Window
     {
+        private DispatcherTimer loginTimer;
+        private int timeCounter = 0;
+
         public HomeWindow()
         {
+            loginTimer = new DispatcherTimer();
             InitializeComponent();
         }
 
@@ -44,6 +49,22 @@ namespace TWLogging
                     this.Close();
                 }
                 CheckInTextBox.Text = "";
+                WhoLoggedInLabel.Content = usersName + " logged in at " + DateTime.Now.ToShortTimeString();
+                //Automatically hide the text that states who just logged in after a minute
+                timeCounter = 0;
+                loginTimer.Tick += LoginTimer_Tick!;
+                loginTimer.Interval = TimeSpan.FromSeconds(1);
+                loginTimer.Start();
+            }
+        }
+
+        private void LoginTimer_Tick(object sender, EventArgs e)
+        {
+            timeCounter++;
+            if (timeCounter == 60)
+            {
+                loginTimer.Stop();
+                WhoLoggedInLabel.Content = "";
             }
         }
     }
