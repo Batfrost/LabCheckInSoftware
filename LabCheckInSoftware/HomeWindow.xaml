@@ -47,7 +47,7 @@
             <Viewbox Grid.Row="0" Stretch="Uniform" VerticalAlignment="Top">
                 <Label x:Name="WhoLoggedInLabel"  Content="" />
             </Viewbox>
-            
+
 
             <Grid Grid.Row="1">
                 <Grid.RowDefinitions>
@@ -69,10 +69,15 @@
                             BorderBrush="Black"  MinWidth="75" />
                 </Viewbox>
 
-                <Grid Grid.Row="2">
-                    
-                </Grid>
             </Grid>
+            <Border Grid.Row="2">
+                <ScrollViewer>
+                    <Viewbox VerticalAlignment="Top">
+                        <DataGrid x:Name="CheckedInDataGrid" AutoGenerateColumns="True" AutoGeneratingColumn="GenerateColumnsAndHeaders">
+                        </DataGrid>
+                    </Viewbox>
+                </ScrollViewer>
+            </Border>
         </Grid>
 
     </Grid>
