@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace TWLogging
 {
@@ -21,29 +22,24 @@ namespace TWLogging
     /// </summary>
     public partial class HomeWindow : Window
     {
-        private DispatcherTimer loginTimer;
+        private DispatcherTimer CheckinTimer;
         private int timeCounter = 0;
+        private DispatcherTimer CheckoutTimer;
         private ObservableCollection<CheckedInRow> CheckedInDataGridRows = new ObservableCollection<CheckedInRow>();
 
         public HomeWindow()
         {
-            loginTimer = new DispatcherTimer();
+            CheckinTimer = new DispatcherTimer();
             InitializeComponent();
 
             //Setup the DataGrid that will display who is currently checked in to the software.
             string[] infoFields = SettingsController.GetInfoFields();
-
-            ////Only display the info field columns that are not empty strings
-            //if (!infoFields[0].Equals(""))
-            //    CheckedInDataGrid.Columns.Add(new DataGridTextColumn { Header = infoFields[0] });
-
-            //if (!infoFields[1].Equals(""))
-            //    CheckedInDataGrid.Columns.Add(new DataGridTextColumn { Header = infoFields[1] });
-
-            ////Last column will be time they checked in
-            //CheckedInDataGrid.Columns.Add(new DataGridTextColumn() { Header = "Time Checked In" });
             CheckedInDataGrid.ItemsSource = CheckedInDataGridRows;
 
+            CheckoutTimer = new DispatcherTimer();
+            CheckoutTimer.Tick += CheckoutTimer_Tick!;
+            CheckoutTimer.Interval = TimeSpan.FromMinutes(1);
+            CheckoutTimer.Start();
         }
 
         //Event Handler for attempting to check in a user when 8 characters are entered into the CheckInBox (8 because that's the size of a uID)
@@ -91,20 +87,33 @@ namespace TWLogging
 
                 //Automatically hide the text that states who just checked in after a minute
                 timeCounter = 0;
-                loginTimer.Tick += LoginTimer_Tick!;
-                loginTimer.Interval = TimeSpan.FromSeconds(1);
-                loginTimer.Start();
+                CheckinTimer.Tick += CheckinTimer_Tick!;
+                CheckinTimer.Interval = TimeSpan.FromSeconds(1);
+                CheckinTimer.Start();
             }
         }
 
         //Timer handler for automatically hiding the text that states a user just checked in after a minute
-        private void LoginTimer_Tick(object sender, EventArgs e)
+        private void CheckinTimer_Tick(object sender, EventArgs e)
         {
             timeCounter++;
             if (timeCounter == 60)
             {
-                loginTimer.Stop();
+                CheckinTimer.Stop();
                 WhoLoggedInLabel.Content = "";
+            }
+        }
+
+        //Timer handler for automatically checking a user out by simply removing them from the CheckedInDataGrid
+        private void CheckoutTimer_Tick(object sender, EventArgs e)
+        {
+            foreach (var row in CheckedInDataGridRows)
+            {
+                if (row.time is not null && DateTime.Parse(row.time).AddMinutes(1) <= DateTime.Now)
+                {
+                    CheckedInDataGridRows.Remove(row);
+                    break;
+                }
             }
         }
 

@@ -39,6 +39,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="0.5*"/>
                 <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="0.2*"/>
                 <RowDefinition Height="5*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
@@ -70,7 +71,7 @@
                 </Viewbox>
 
             </Grid>
-            <Border Grid.Row="2">
+            <Border Grid.Row="3">
                 <ScrollViewer>
                     <Viewbox VerticalAlignment="Top">
                         <DataGrid x:Name="CheckedInDataGrid" AutoGenerateColumns="True" AutoGeneratingColumn="GenerateColumnsAndHeaders">
