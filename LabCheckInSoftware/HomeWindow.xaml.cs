@@ -1,19 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Globalization;
 using System.Reflection;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace TWLogging
 {
@@ -40,6 +30,79 @@ namespace TWLogging
             CheckoutTimer.Tick += CheckoutTimer_Tick!;
             CheckoutTimer.Interval = TimeSpan.FromMinutes(1);
             CheckoutTimer.Start();
+        }
+
+        //Event Handler for attempting to enter the manager mode, asks user to enter a password, and if correct, takes user to manager page
+        private void ManagerMode_Clicked(object sender, EventArgs e)
+        {
+            //First ask for the Manager Password on a new window
+            Window ManagerPasswordWindow = new Window() { Width = 500, Height = 200 };
+            Grid popupGrid = new Grid();
+            ManagerPasswordWindow.Content = popupGrid;
+            popupGrid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
+            popupGrid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
+            popupGrid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
+            Viewbox v0 = new Viewbox() { HorizontalAlignment = HorizontalAlignment.Center, Stretch = System.Windows.Media.Stretch.Uniform };
+            TextBlock popupText = new TextBlock() { HorizontalAlignment = HorizontalAlignment.Center, Text = "Please enter the Manager Password. \nIf forgotten, ask Trevor."};
+            v0.Child = popupText;
+            popupGrid.Children.Add(v0);
+            Grid.SetRow(v0, 0);
+            PasswordBox pB = new PasswordBox() { Name = "pB" };
+            popupGrid.Children.Add(pB);
+            Grid.SetRow(pB, 1);
+            Button closeButton = new Button() { Content = "Log In" };
+            closeButton.Click += ManagerModePasswordWindow;
+            popupGrid.Children.Add(closeButton);
+            Grid.SetRow(closeButton, 2);
+            ManagerPasswordWindow.ShowDialog();
+
+            while (ManagerPasswordWindow!.IsActive)
+            {
+                //Doubly make sure everything is disconnected and shut down
+                if (closeButton != null) closeButton.Click -= ManagerModePasswordWindow;
+                if (ManagerPasswordWindow != null) ManagerPasswordWindow.Close();
+            }
+        }
+
+        //Private handler for the new popup window's button to check the inputted password and close if correct
+        private void ManagerModePasswordWindow(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var win = Window.GetWindow(button);
+            Grid? grid = win.Content as Grid;
+            PasswordBox? pB = (PasswordBox?)grid!.Children.Cast<UIElement>().First(e => Grid.GetRow(e) == 1 && Grid.GetColumn(e) == 0);
+
+            //Check the Inputted Password
+            if (SettingsController.CheckPassword(pB!.Password))
+            {
+                //Initialize the ManagerWindow to match this windows size settings
+                var MW = new ManagerWindow
+                {
+                    WindowStartupLocation = this.WindowStartupLocation,
+                    Width = this.Width,
+                    Height = this.Height,
+                    WindowState = this.WindowState,
+                    WindowStyle = this.WindowStyle
+                };
+                MW.Show();
+                button!.Click -= ManagerModePasswordWindow;
+                win.Close();
+            }
+            else
+            {
+                TextBlock? incorrectPasswordText = (TextBlock?)grid!.Children.Cast<UIElement>().FirstOrDefault(e => Grid.GetRow(e) == 3 && Grid.GetColumn(e) == 0);
+                if (incorrectPasswordText is null)
+                {
+                    incorrectPasswordText = new TextBlock() { HorizontalAlignment = HorizontalAlignment.Center, Text = "Password entered at " + DateTime.Now.ToShortTimeString() + " is incorrect." };
+                    grid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
+                    grid.Children.Add(incorrectPasswordText);
+                    Grid.SetRow(incorrectPasswordText, 3);
+                }
+                else
+                {
+                    incorrectPasswordText.Text = "Password entered at " + DateTime.Now.ToString("h:mm:ss tt") + " is incorrect.";
+                }
+            }
         }
 
         //Event Handler for attempting to check in a user when 8 characters are entered into the CheckInBox (8 because that's the size of a uID)

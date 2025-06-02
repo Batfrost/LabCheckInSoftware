@@ -55,7 +55,7 @@ namespace TWLogging
         public static bool CheckPassword(string pToCheck)
         {
             string settings = DecryptText(System.IO.File.ReadAllText(SaveFileLocation + "Settings.config"));
-            string password = settings.Substring(3, settings.IndexOf("\n"));
+            string password = settings.Substring(3, settings.IndexOf("\n") - 3);
 
             return pToCheck.Equals(password);
         }
