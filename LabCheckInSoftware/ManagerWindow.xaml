@@ -5,8 +5,62 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TWLogging"
         mc:Ignorable="d"
-        Title="ManagerWindow" Height="450" Width="800">
+        Title="TWLogging Manager Window" Height="450" Width="800"
+        MouseMove="Window_MouseMove">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="6*"/>
+            </Grid.RowDefinitions>
+            <Viewbox Grid.Row="0" Grid.Column="1" Stretch="Uniform">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Content="Manager Window" Height="auto" VerticalAlignment="Top"  Width="auto" HorizontalAlignment="Center"/>
+                    <Line Grid.Row="1" X1="-1000" X2="1000" Stroke="Black" HorizontalAlignment="Center" VerticalAlignment="Top" Width="200"/>
+                </Grid>
+            </Viewbox>
+
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height=".3*"/>
+                    <RowDefinition Height=".3*"/>
+                    <RowDefinition Height=".3*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Viewbox Grid.Row="0" Stretch="Uniform" HorizontalAlignment="Center" Margin="0,20,0,5">
+                    <Button x:Name="ChangeSettingsButton" Content="Change Settings" Background="GhostWhite" Click="ChangeSettingsButton_Click"/>
+                </Viewbox>
+                <Viewbox Grid.Row="1" Stretch="Uniform" HorizontalAlignment="Center" Margin="0,20,0,5">
+                    <Button x:Name="AttendanceTrackerButton" Content="Attendance Trackers" Background="GhostWhite" Click="AttendanceTrackerButton_Click"/>
+                </Viewbox>
+                <Viewbox Grid.Row="2" Stretch="Uniform" HorizontalAlignment="Center" Margin="0,20,0,5">
+                    <Button x:Name="LookupButton" Content="Lookup/Edit User" Background="GhostWhite" Click="LookupButton_Click"/>
+                </Viewbox>
+                <Grid Grid.Row="3">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="1.5*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Viewbox Grid.Row="1" Grid.Column="0" Stretch="Uniform">
+                        <TextBlock Text="You can close this page manually in the corner, or it will close automatically after 30 seconds of no interaction." TextWrapping="Wrap"/>
+                    </Viewbox>
+                    <Label Grid.Row="2" x:Name="TimerLabel" Content=""/>
+
+                </Grid>
+            </Grid>
+        </Grid>
     </Grid>
 </Window>
