@@ -28,6 +28,9 @@ namespace TWLogging
             if (Lookup.LookupUser(uID, null, null)[0] is not null)
                 return;
 
+            //Change the uID to a standard form, as sometimes users enter '0' as the first char or 'u'
+            uID = 'u' + uID.Substring(1);
+
             //Add the user's info and the date they registered as a new row into Users.csv
             UsersFile += "\n" + uID + "," + fName + "," + lName + "," + infoField1 + "," + infoField2 + "," + DateTime.Now.ToString("MM/dd/yyyy");
             System.IO.File.WriteAllText(SettingsController.SaveFileLocation + "Users.csv", UsersFile);

@@ -32,7 +32,7 @@
             <Grid Grid.Row="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height=".4*"/>
-                    <RowDefinition Height=".62*"/>
+                    <RowDefinition Height=".43*"/>
                     <RowDefinition Height=".5*"/>
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height=".5*"/>
@@ -47,8 +47,8 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
+                            <RowDefinition Height=".5*"/>
+                            <RowDefinition Height=".5*"/>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
@@ -57,21 +57,15 @@
                             <Label Content="uID: " />
                         </Viewbox>
                         <Viewbox Grid.Row="0" Grid.Column="1" Stretch="Uniform" HorizontalAlignment="Left">
-                            <TextBox x:Name="uIDLookupBox" Text="" MinWidth="50" Margin="5,3,0,3" MaxLength="8"/>
+                            <TextBox x:Name="UIDLookupBox" Text="" MinWidth="50" Margin="5,3,0,3" MaxLength="8" KeyDown="UIDLookupBox_KeyDown"/>
                         </Viewbox>
                         <Viewbox Grid.Row="1" Grid.Column="0" Stretch="Uniform" HorizontalAlignment="Right">
-                            <Label Content="First Name: " />
+                            <Label Content="First + Last Name: " />
                         </Viewbox>
                         <Viewbox Grid.Row="1" Grid.Column="1" Stretch="Uniform" HorizontalAlignment="Left">
-                            <TextBox x:Name="FirstNameLookupBox" Text="" MinWidth="50" Margin="5,3,0,3"/>
+                            <TextBox x:Name="NameLookupBox" Text="" MinWidth="50" Margin="5,3,0,3" KeyDown="NameLookupBox_KeyDown"/>
                         </Viewbox>
-                        <Viewbox Grid.Row="2" Grid.Column="0" Stretch="Uniform" HorizontalAlignment="Right">
-                            <Label Content="Last Name: " />
-                        </Viewbox>
-                        <Viewbox Grid.Row="2" Grid.Column="1" Stretch="Uniform" HorizontalAlignment="Left">
-                            <TextBox x:Name="LastNameLookupBox" Text="" MinWidth="50" Margin="5,3,0,3"/>
-                        </Viewbox>
-                        
+
                     </Grid>
                 </Viewbox>
                 <Grid Grid.Row="2">
@@ -103,31 +97,31 @@
                             <Label Content="uID: " />
                         </Viewbox>
                         <Viewbox Grid.Row="0" Grid.Column="1" Stretch="Uniform" HorizontalAlignment="Left">
-                            <TextBox x:Name="uIDBox" Text="" MinWidth="50" Margin="5,3,0,3" MaxLength="8"/>
+                            <TextBox x:Name="uIDBox" Text="" MinWidth="50" Margin="5,3,0,3" MaxLength="8" KeyDown="uIDBox_KeyDown"/>
                         </Viewbox>
                         <Viewbox Grid.Row="1" Grid.Column="0" Stretch="Uniform" HorizontalAlignment="Right">
                             <Label Content="First Name: " />
                         </Viewbox>
                         <Viewbox Grid.Row="1" Grid.Column="1" Stretch="Uniform" HorizontalAlignment="Left">
-                            <TextBox x:Name="FirstNameBox" Text="" MinWidth="50" Margin="5,3,0,3"/>
+                            <TextBox x:Name="FirstNameBox" Text="" MinWidth="50" Margin="5,3,0,3" KeyDown="FirstNameBox_KeyDown"/>
                         </Viewbox>
                         <Viewbox Grid.Row="2" Grid.Column="0" Stretch="Uniform" HorizontalAlignment="Right">
                             <Label Content="Last Name: " />
                         </Viewbox>
                         <Viewbox Grid.Row="2" Grid.Column="1" Stretch="Uniform" HorizontalAlignment="Left">
-                            <TextBox x:Name="LastNameBox" Text="" MinWidth="50" Margin="5,3,0,3"/>
+                            <TextBox x:Name="LastNameBox" Text="" MinWidth="50" Margin="5,3,0,3" KeyDown="LastNameBox_KeyDown"/>
                         </Viewbox>
                         <Viewbox Grid.Row="3" Grid.Column="0" Stretch="Uniform" HorizontalAlignment="Right">
                             <Label x:Name="InfoField1Label" Content="" />
                         </Viewbox>
                         <Viewbox Grid.Row="3" Grid.Column="1" Stretch="Uniform" HorizontalAlignment="Left">
-                            <TextBox x:Name="InfoField1Box" Text="" MinWidth="50" Margin="5,3,0,3" IsEnabled="False"/>
+                            <TextBox x:Name="InfoField1Box" Text="" MinWidth="50" Margin="5,3,0,3" IsEnabled="False" KeyDown="InfoField1Box_KeyDown"/>
                         </Viewbox>
                         <Viewbox Grid.Row="4" Grid.Column="0" Stretch="Uniform" HorizontalAlignment="Right">
                             <Label x:Name="InfoField2Label" Content="" />
                         </Viewbox>
                         <Viewbox Grid.Row="4" Grid.Column="1" Stretch="Uniform" HorizontalAlignment="Left">
-                            <TextBox x:Name="InfoField2Box" Text="" MinWidth="50" Margin="5,3,0,3" IsEnabled="False"/>
+                            <TextBox x:Name="InfoField2Box" Text="" MinWidth="50" Margin="5,3,0,3" IsEnabled="False" KeyDown="InfoField2Box_KeyDown"/>
                         </Viewbox>
                     </Grid>
                 </Viewbox>
