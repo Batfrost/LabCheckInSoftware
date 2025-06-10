@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Diagnostics;
+using System.Windows;
 using System.Windows.Threading;
 
 namespace TWLogging
@@ -94,6 +95,15 @@ namespace TWLogging
             {
                 TimeCounter = 0;
             }
+        }
+
+        //Opens the save file in a new file explorer window
+        private void SaveLocationButton_Click(object sender, RoutedEventArgs e)
+        {
+            var psi = new ProcessStartInfo();
+            psi.FileName = @"c:\windows\explorer.exe";
+            psi.Arguments = SettingsController.SaveFileLocation;
+            Process.Start(psi);
         }
     }
 }
