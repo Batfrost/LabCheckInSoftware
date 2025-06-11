@@ -5,8 +5,151 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TWLogging"
         mc:Ignorable="d"
-        Title="AttendanceTrackerWindow" Height="450" Width="800">
+        Title="TWLogging: Attendance Trackers" Height="450" Width="800">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="6*"/>
+            </Grid.RowDefinitions>
+            <Viewbox Grid.Row="0" Grid.Column="1" Stretch="Uniform">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Content="Attendance Trackers" Height="auto" VerticalAlignment="Top"  Width="auto" HorizontalAlignment="Center"/>
+                    <Line Grid.Row="1" X1="-1000" X2="1000" Stroke="Black" HorizontalAlignment="Center" VerticalAlignment="Top" Width="200"/>
+                </Grid>
+            </Viewbox>
+            <Grid Grid.Row="1" Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height=".3*"/>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Viewbox Grid.Row="0" Stretch="Uniform" VerticalAlignment="Top" HorizontalAlignment="Center">
+                        <Label Content="Created as .csv files. Manager Page -> Show Save Location -> 'Attendance Trackers' folder."/>
+                    </Viewbox>
+                </Grid>
+
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height=".23*"/>
+                        <RowDefinition Height=".05*"/>
+                        <RowDefinition Height=".3*"/>
+                        <RowDefinition Height="2*"/>
+                    </Grid.RowDefinitions>
+
+                    <Viewbox Grid.Row="0" Stretch="Uniform">
+                        <TextBlock Text="For this attendance tracker, what is the time frame?" TextDecorations="Underline"/>
+                    </Viewbox>
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width=".35*"/>
+                            <ColumnDefinition Width=".05*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width=".15*"/>
+                            <ColumnDefinition Width=".17*"/>
+                            <ColumnDefinition Width=".05*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Viewbox Grid.Column="0" Grid.Row="1" Stretch="Uniform">
+                            <TextBlock Text="From:" TextDecorations="Underline"/>
+                        </Viewbox>
+                        <Viewbox Grid.Column="4" Grid.Row="1" Stretch="Uniform">
+                            <TextBlock Text="To" TextDecorations="Underline"/>
+                        </Viewbox>
+                        <Viewbox Grid.Column="2" Grid.Row="1" Stretch="Uniform">
+                            <DatePicker x:Name="FromDatePicker"/>
+                        </Viewbox>
+                        <Viewbox Grid.Column="6" Grid.Row="1" Stretch="Uniform">
+                            <DatePicker x:Name="ToDatePicker"/>
+                        </Viewbox>
+                    </Grid>
+                    <Grid Grid.Row="3">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height=".1*"/>
+                            <RowDefinition Height=".2*"/>
+                            <RowDefinition Height=".3*"/>
+                            <RowDefinition Height=".1*"/>
+                            <RowDefinition Height=".2*"/>
+                            <RowDefinition Height=".1*"/>
+                            <RowDefinition Height=".2*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Viewbox Grid.Row="1" Stretch="Uniform">
+                            <TextBlock Text="What days of the week do you want to track attendance for?" TextDecorations="Underline"/>
+                        </Viewbox>
+                        <Grid Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width=".1*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width=".1*"/>
+                                <ColumnDefinition Width="1.15*"/>
+                                <ColumnDefinition Width=".1*"/>
+                                <ColumnDefinition Width="1.05*"/>
+                                <ColumnDefinition Width=".1*"/>
+                                <ColumnDefinition Width=".9*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Viewbox Grid.Row="0" Grid.Column="0" Stretch="Uniform">
+                                <CheckBox x:Name="MondayCheckBox" Content="Monday"/>
+                            </Viewbox>
+                            <Viewbox Grid.Row="0" Grid.Column="2" Stretch="Uniform">
+                                <CheckBox x:Name="TuesdayCheckBox" Content="Tuesday"/>
+                            </Viewbox>
+                            <Viewbox Grid.Row="0" Grid.Column="4" Stretch="Uniform">
+                                <CheckBox x:Name="WednesdayCheckBox" Content="Wednesday"/>
+                            </Viewbox>
+                            <Viewbox Grid.Row="0" Grid.Column="6" Stretch="Uniform">
+                                <CheckBox x:Name="ThursdayCheckBox" Content="Thursday"/>
+                            </Viewbox>
+                            <Viewbox Grid.Row="0" Grid.Column="8" Stretch="Uniform">
+                                <CheckBox x:Name="FridayCheckBox" Content="Friday"/>
+                            </Viewbox>
+                        </Grid>
+                        <Viewbox Grid.Row="4" Stretch="Uniform">
+                            <CheckBox x:Name="BiweeklyCheckBox" Content="Biweekly? (Every other week, starts in week of specified 'From' Date)"/>
+                        </Viewbox>
+                        <Viewbox Grid.Row="6" Stretch="Uniform">
+                            <TextBlock Text="Input the uID of all users to track below. (With new lines separating them, or spaces)" TextDecorations="Underline"/>
+                        </Viewbox>
+                        <Viewbox Grid.Row="7" Stretch="Uniform">
+                            <TextBox x:Name="IDsToTrackTextBox" AcceptsReturn="True" MinWidth="100"/>
+                        </Viewbox>
+                    </Grid>
+                </Grid>
+
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Viewbox Grid.Row="1" Grid.Column="0" Stretch="Uniform">
+                        <Button x:Name="AgreeButton" Content="Create Attendance Tracker" Click="AgreeButton_Click" Background="GhostWhite"/>
+                    </Viewbox>
+                </Grid>
+            </Grid>
+        </Grid>
     </Grid>
 </Window>
