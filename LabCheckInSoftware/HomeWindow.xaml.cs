@@ -133,7 +133,7 @@ namespace TWLogging
                 bool checkingOut = false;
                 foreach (var row in CheckedInDataGridRows)
                 {
-                    if (row.uID!.Equals(text))
+                    if (row.uID!.Equals('u' + text.Substring(1)))
                     {
                         CheckedInDataGridRows.Remove(row);
                         WhoLoggedInLabel.Content = usersName + " checked out at " + DateTime.Now.ToShortTimeString();
