@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 
 namespace TWLogging
 {
+    /// <summary>
+    /// This class will handle most of the Attendance Tracker Logic, such as creating or updating a tracker.
+    /// </summary>
     internal static class Tracker
     {
         /// <summary>
@@ -14,124 +12,102 @@ namespace TWLogging
         /// of the week, during the specified given time frame. Option to make this biweekly (every other week) too.
         /// Returns whether or not the method was successful.
         /// </summary>
-        public static bool CreateAttendanceTracker(DateTime fromDate, DateTime toDate, bool[] daysOfWeek, bool biweekly, string[] IDsToTrack)
+        public static bool CreateAttendanceTracker(string NameOfTracker, DateTime fromDate, DateTime toDate, bool[] daysOfWeek, bool biweekly, string[] IDsToTrack)
         {
-
-            return false;
-        }
-
-        using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Globalization;
-
-namespace LabManageSystemFix
-    {
-        internal class Program
-        {
-            static void Main(string[] args)
+            try
             {
-                List<Dictionary<string, Dictionary<DateTime, bool>>> attendanceTrackers = new();
-                string[] attTrackerPaths = {
-            "C:\\ProgramData\\TWLogging\\AttendanceTrackers\\MEEN4000-002.csv",
-            "C:\\ProgramData\\TWLogging\\AttendanceTrackers\\MEEN4000-003.csv",
-            "C:\\ProgramData\\TWLogging\\AttendanceTrackers\\MEEN4010-002.csv",
-            "C:\\ProgramData\\TWLogging\\AttendanceTrackers\\MEEN4010-003.csv",
-            "C:\\ProgramData\\TWLogging\\AttendanceTrackers\\MEEN4010-004.csv" };
-                for (int i = 0; i < attTrackerPaths.Count(); i++)
-                {
-                    Dictionary<string, Dictionary<DateTime, bool>> info = new();
-                    using (var reader = new StreamReader(attTrackerPaths[i]))
-                    {
-                        string s;
-                        string name = reader.ReadLine()!;
-                        while ((s = reader.ReadLine()!) != null)
-                        {
-                            info.Add(s.Substring(0, s.IndexOf(",")), new Dictionary<DateTime, bool>());
-                        }
-                        info.Add("u1313191", new Dictionary<DateTime, bool>());
-                        attendanceTrackers.Add(info);
-                    }
-                }
+                //First, the top row will be made, containing the name, absence count, and all the dates from the given information
+                System.Text.StringBuilder tracker = new();
+                tracker.Append(NameOfTracker + ",Absences");
 
-                DateTime startDate = new DateTime(2025, 1, 6);
-                DateTime endDate = new DateTime(2025, 4, 17);
-                DateTime currDate = startDate;
-                Dictionary<string, Dictionary<DateTime, bool>> studentInfo = new();
-                while (currDate != endDate)
+                DateTime currDate = fromDate;
+                int weekCount = 0; //This will be used to keep track of biweekly weeks, if that option was checked
+                while (currDate <= toDate)
                 {
-                    string csvFilePath = "C:\\ProgramData\\TWLogging\\Logs\\" + currDate.ToString("yyyy-MMMM") + "\\log" + currDate.ToString("M-d-yyyy") + ".csv";
-                    try
-                    {
-                        using (var reader = new StreamReader(csvFilePath))
-                        {
-                            string s;
-                            while ((s = reader.ReadLine()!) != null)
-                            {
-                                //Console.WriteLine(s.Substring(0, s.IndexOf(",")));
-                                s = s.Substring(0, s.IndexOf(","));
-                                if (!studentInfo.ContainsKey(s))
-                                    studentInfo.Add(s, new Dictionary<DateTime, bool>());
-                                studentInfo[s].Add(currDate, true);
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    { }
-                    //Console.WriteLine(currDate.ToString("M-d-yyyy"));
+                    //Skip this date if it is a Saturday or Sunday, then also check if the biweekly option is enabled and whether or not this week falls in that category
+                    if (currDate.DayOfWeek != DayOfWeek.Saturday && currDate.DayOfWeek != DayOfWeek.Sunday && (!biweekly || (biweekly && weekCount % 2 == 0)))
+                        //In daysOfWeek, [0] represents Monday, but Monday in integer format for a DateTime object is 1, so subtract 1
+                        if (daysOfWeek[(int)currDate.DayOfWeek - 1])
+                            //This is on a valid day of the week, so add this date to the tracker
+                            tracker.Append(',' + currDate.ToString("M-d-yyyy"));
+
                     currDate = currDate.AddDays(1);
+                    if (currDate.DayOfWeek == DayOfWeek.Monday)
+                        weekCount++;
                 }
+                tracker.Append('\n');
 
-                for (int i = 0; i < attTrackerPaths.Count(); i++)
+                //First Row of .csv tracker is finished, time to add rows for each ID to track, and if the from date < current date, check logs and track attendance for any days previous to today
+                if (fromDate <= DateTime.Today)
                 {
-                    Dictionary<string, Dictionary<DateTime, bool>> info = new();
-                    using (var reader = new StreamReader(attTrackerPaths[i]))
+                    DateTime endDate = (DateTime.Today < toDate) ? DateTime.Today : toDate; //Only loop to whichever is sooner: the to date, or the current date - for inner loop that goes over dates
+                    //Now, for each ID to track, we will check each valid date's log and mark whether or not they checked in that date or not
+                    for (int i = 0; i < IDsToTrack.Length; i++)
                     {
-                        string s;
-                        string firstRow = reader.ReadLine()!;
-                        string[] Dates = firstRow.Split(',');
-                        using (StreamWriter writer = File.CreateText(attTrackerPaths[i].Substring(0, attTrackerPaths[i].Length - 4) + "(1).csv"))
+                        System.Text.StringBuilder newRow = new();
+                        string userID = 'u' + IDsToTrack[i].Substring(1);
+                        newRow.Append(userID);
+                        System.Text.StringBuilder secondPart = new();
+                        
+                        int absenceCount = 0;
+                        currDate = fromDate;
+                        weekCount = 0;
+                        while (currDate <= endDate)
                         {
-                            writer.WriteLine(firstRow);
-                            for (int j = 0; j < attendanceTrackers.Count(); j++)
+                            //Double check that the day getting checked is valid for the specified range of dates
+                            if (currDate.DayOfWeek != DayOfWeek.Saturday && currDate.DayOfWeek != DayOfWeek.Sunday && (!biweekly || (biweekly && weekCount % 2 == 0)))
                             {
-                                foreach (string uID in attendanceTrackers[j].Keys)
+                                //Now the specific log for that day will will attempt to load
+                                try
                                 {
-                                    string newLine = "";
-                                    int abs = 0;
-                                    bool studentExists = true;
-                                    for (int k = 2; k < Dates.Length; k++)
-                                    {
-                                        DateTime date = DateTime.Parse(Dates[k]);
-                                        if (date > endDate)
-                                            break;
-                                        try
-                                        {
-                                            if (studentInfo[uID].ContainsKey(date))
-                                            {
-                                                newLine += "yes,";
-                                            }
-                                            else { newLine += "no,"; abs++; }
-                                        }
-                                        catch
-                                        {
-                                            //This student doesn't exist in any logs so just don't put their uID in
-                                            studentExists = false;
-                                        }
+                                    string csvFilePath = SettingsController.SaveFileLocation + "Logs\\" + currDate.ToString("yyyy-MMMM") + "\\log" + currDate.ToString("MM-dd-yyyy") + ".csv";
+                                    //This method returns a -1 if the user wasn't found, or the row the user was found on, but this method won't require the row
+                                    int foundUser = Lookup.LookupUserInLogFile(csvFilePath, userID);
 
+                                    //If we didn't find that user's ID in that log, they will be marked 'no' for that date and their absence will be incremented
+                                    //But only as long as the date getting checked isn't today, as that user may check in today 
+                                    if (foundUser == -1 && currDate != DateTime.Today)
+                                    {
+                                        secondPart.Append(",no");
+                                        absenceCount++;
                                     }
-                                    if (studentExists)
-                                        writer.WriteLine(uID + "," + abs.ToString() + "," + newLine);
+                                    else if (foundUser != -1) { secondPart.Append(",yes"); }
+                                }
+                                catch
+                                {
+                                    //This log was unable to open, meaning that no users from the IDsToTrack checked in this day, so this date will be marked simply as 'Holiday?'
+                                    secondPart.Append(",Holiday?");
                                 }
                             }
+                            currDate = currDate.AddDays(1);
+                            if (currDate.DayOfWeek == DayOfWeek.Monday)
+                                weekCount++;
+                            //Settings.saveFileLocation + "Logs\\" + DayToCheck.ToString("yyyy-MMMM") + "\\log" + DayToCheck.ToString().Split(" ").First().Replace("/", "-") + ".csv"
                         }
-
+                        newRow.Append(',' + absenceCount.ToString() + secondPart.ToString() + '\n');
+                        tracker.Append(newRow);
                     }
                 }
+                else
+                {
+                    //The from Date is in the future, so the new rows for each ID will just be the ID + ',' + 0 for the absence count, since we don't have that future info yet
+                    for (int i = 0; i < IDsToTrack.Length; i++)
+                        tracker.Append(IDsToTrack[i] + ",0\n");
+                }
 
+                //Now we save the Tracker file within the Attendance Trackers folder (which will be created if it doesn't exist yet) as a .csv file
+                if (!System.IO.Directory.Exists(SettingsController.SaveFileLocation + "\\Attendance Trackers"))
+                    System.IO.Directory.CreateDirectory(SettingsController.SaveFileLocation + "\\Attendance Trackers");
+                System.IO.File.WriteAllText(SettingsController.SaveFileLocation + "\\Attendance Trackers\\" + NameOfTracker + ".csv", tracker.ToString());
+                return true;
+            }
+            catch
+            {
+                //If any errors have occured, return false, method was not successful
+                //Most likely errors are that the fromDate was after the toDate, or an invalid NameOfTracker or ID in IDsToTrack was inputted
+                return false;
             }
         }
-    }
 
-}
+    }
 }

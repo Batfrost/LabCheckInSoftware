@@ -160,7 +160,7 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <Viewbox Grid.Row="1" Grid.Column="0" Stretch="Uniform">
-                        <Button x:Name="AgreeButton" Content="Create Attendance Tracker" Click="AgreeButton_Click" Background="GhostWhite"/>
+                        <Button x:Name="CreateButton" Content="Create Attendance Tracker" Click="CreateButton_Click"  Background="GhostWhite"/>
                     </Viewbox>
                 </Grid>
             </Grid>

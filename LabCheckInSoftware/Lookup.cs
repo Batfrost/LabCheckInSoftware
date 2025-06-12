@@ -62,6 +62,7 @@ namespace TWLogging
         /// </summary>
         public static int LookupUserInLogFile(string logFilePath, string uID)
         {
+            uID = 'u' + uID.Substring(1);
             string log = System.IO.File.ReadAllText(logFilePath);
             string[] users = log.Split("\n");
             int index = 0;
@@ -82,6 +83,7 @@ namespace TWLogging
         /// </summary>
         public static bool EditUserInfoGivenID(string uID, string? newID, string? firstName, string? lastName, string? infField1, string? infField2)
         {
+            uID = 'u' + uID.Substring(1);
             try
             {
                 //First find where the User is located within the Users file
