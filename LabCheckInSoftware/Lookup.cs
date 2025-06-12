@@ -57,10 +57,10 @@ namespace TWLogging
         }
 
         /// <summary>
-        /// Examines the log file from the given log file path and returns either the row number of the log that
-        /// the user is on (with zero-indexing), or a -1 if the user wasn't found in the log file.
+        /// Examines the log file from the given log file path or attendance tracker file and returns either the row number of the log/tracker that
+        /// the user is on (with zero-indexing), or a -1 if the user wasn't found in the file.
         /// </summary>
-        public static int LookupUserInLogFile(string logFilePath, string uID)
+        public static int LookupUserInFile(string logFilePath, string uID)
         {
             uID = 'u' + uID.Substring(1);
             string log = System.IO.File.ReadAllText(logFilePath);

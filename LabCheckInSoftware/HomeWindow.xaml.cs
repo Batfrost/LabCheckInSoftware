@@ -148,6 +148,9 @@ namespace TWLogging
                     WhoLoggedInLabel.Content = usersName + " checked in at " + DateTime.Now.ToShortTimeString();
                 }
 
+                //Check their attendance
+                Tracker.CheckAttendanceForUser(text);
+
                 //Automatically hide the text that states who just checked in after a minute
                 timeCounter = 0;
                 CheckinTimer.Tick += CheckinTimer_Tick!;

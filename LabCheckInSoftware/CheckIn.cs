@@ -38,7 +38,7 @@ namespace TWLogging
             {
                 string log = System.IO.File.ReadAllText(logFilePath);
                 //The daily log already exists, time to check if the user has already made a log today
-                int rowIndex = Lookup.LookupUserInLogFile(logFilePath, userInfo[0]);
+                int rowIndex = Lookup.LookupUserInFile(logFilePath, userInfo[0]);
 
                 //If the value for usersRow is -1, this user doesn't exist in the log file and can just be added as a new row onto the end
                 if (rowIndex == -1)

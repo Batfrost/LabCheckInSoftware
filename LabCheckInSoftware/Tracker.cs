@@ -62,7 +62,7 @@ namespace TWLogging
                                 {
                                     string csvFilePath = SettingsController.SaveFileLocation + "Logs\\" + currDate.ToString("yyyy-MMMM") + "\\log" + currDate.ToString("MM-dd-yyyy") + ".csv";
                                     //This method returns a -1 if the user wasn't found, or the row the user was found on, but this method won't require the row
-                                    int foundUser = Lookup.LookupUserInLogFile(csvFilePath, userID);
+                                    int foundUser = Lookup.LookupUserInFile(csvFilePath, userID);
 
                                     //If we didn't find that user's ID in that log, they will be marked 'no' for that date and their absence will be incremented
                                     //But only as long as the date getting checked isn't today, as that user may check in today 
@@ -76,7 +76,9 @@ namespace TWLogging
                                 catch
                                 {
                                     //This log was unable to open, meaning that no users from the IDsToTrack checked in this day, so this date will be marked simply as 'Holiday?'
-                                    secondPart.Append(",Holiday?");
+                                    //Or if it is today, then we won't mark anything, in case people will be soon marking attendance
+                                    if (currDate !=  DateTime.Today)
+                                        secondPart.Append(",Holiday?");
                                 }
                             }
                             currDate = currDate.AddDays(1);
@@ -107,6 +109,65 @@ namespace TWLogging
                 //Most likely errors are that the fromDate was after the toDate, or an invalid NameOfTracker or ID in IDsToTrack was inputted
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Checks all available attendance trackers for if this user exists within, and if they do, mark attendance for them
+        /// </summary>
+        public static void CheckAttendanceForUser(string uID)
+        {
+            uID = 'u' + uID.Substring(1);
+            string[] trackerFiles = Directory.GetFiles(SettingsController.SaveFileLocation + "\\Attendance Trackers", "*", SearchOption.AllDirectories);
+            foreach (string trackerFile in trackerFiles)
+            {
+                //Get the row the user is on in the tracker, if -1 then this user isn't in this tracker
+                int userRow = Lookup.LookupUserInFile(trackerFile, uID);
+                if (userRow == -1)
+                    continue;
+
+                
+                string tracker = System.IO.File.ReadAllText(trackerFile);
+                string[] trackerContents = tracker.Split('\n');
+
+                //Figure out if today is a valid day for them to check in for attendance
+                string[] firstRow = trackerContents[0].Split(',');
+                for (int i = 2; i < firstRow.Length; i++)
+                {
+                    if (DateTime.Parse(firstRow[i]) == DateTime.Today)
+                    {
+                        //Now figure out if this user needs to be marked as here or if they already have been
+                        List<string> rowInfo = trackerContents[userRow].Split(',').ToList();
+                        List<string> newRow = new List<string>(rowInfo);
+                        for (int j = rowInfo.Count; j <= i; j++)
+                        {
+                            if (j == i)
+                                newRow.Add("yes");
+                            else
+                            {
+                                //If there is more than just today that needs attendance to be marked, that means this user was absent the previous times
+                                newRow[1] = (int.Parse(newRow[1]) + 1).ToString();
+                                newRow.Add("no");
+                            }
+                        }
+                        //Now to rejoin the row and all rows together and save
+                        trackerContents[userRow] = string.Join(',', newRow);
+                        tracker = string.Join('\n', trackerContents);
+                        System.IO.File.WriteAllText(trackerFile, tracker);
+                        break;
+                    }
+                    //If the date getting checked for the first row header is after today, then today isn't explicitly marked on the tracker
+                    if (DateTime.Parse(firstRow[i]) > DateTime.Today)
+                        break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Goes through all available attendance trackers, and marks absences for users who have not logged in during this time
+        /// </summary>
+        public static void MarkAbsences()
+        {
+
         }
 
     }
