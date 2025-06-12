@@ -16,6 +16,7 @@ namespace TWLogging
         private int timeCounter = 0;
         private DispatcherTimer CheckoutTimer;
         private ObservableCollection<CheckedInRow> CheckedInDataGridRows = new ObservableCollection<CheckedInRow>();
+        private DispatcherTimer MarkAbsencesTimer;
 
         public HomeWindow()
         {
@@ -30,6 +31,13 @@ namespace TWLogging
             CheckoutTimer.Tick += CheckoutTimer_Tick!;
             CheckoutTimer.Interval = TimeSpan.FromMinutes(1);
             CheckoutTimer.Start();
+
+            //Mark attendances with Tracker method every day, doesn't mark absence for current day
+            MarkAbsencesTimer = new DispatcherTimer();
+            MarkAbsencesTimer.Tick += MarkAbsencesTimer_Tick!;
+            MarkAbsencesTimer.Interval = TimeSpan.FromDays(1);
+            MarkAbsencesTimer.Start();
+
         }
 
         //Event Handler for attempting to enter the manager mode, asks user to enter a password, and if correct, takes user to manager page
@@ -181,6 +189,12 @@ namespace TWLogging
                     break;
                 }
             }
+        }
+
+        //Timer handler for automatically checking for absences for the previous days
+        private void MarkAbsencesTimer_Tick(object sender, EventArgs e)
+        {
+            Tracker.MarkAbsences();
         }
 
         //Event Handler for creating the columns/headers for the CheckedInDataGrid: Sets the column headers to be correct text, based on the DisplayName property of a field in the Row class below

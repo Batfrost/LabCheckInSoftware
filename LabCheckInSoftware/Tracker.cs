@@ -167,7 +167,32 @@ namespace TWLogging
         /// </summary>
         public static void MarkAbsences()
         {
+            string[] trackerFiles = Directory.GetFiles(SettingsController.SaveFileLocation + "\\Attendance Trackers", "*", SearchOption.AllDirectories);
+            foreach (string trackerFile in trackerFiles)
+            {
+                string tracker = System.IO.File.ReadAllText(trackerFile);
+                string[] trackerContents = tracker.Split('\n');
 
+                //For each date listed in the first row, we will check if each user has checked in or not, up until the current date
+                //If not, we will add 'no' and update their absence count
+                string[] firstRow = trackerContents[0].Split(',');
+                for (int i = 2; i < firstRow.Length; i++)
+                {
+                    if (DateTime.Parse(firstRow[i]) >= DateTime.Today)
+                        break;
+                    for (int j = 1;  j <= trackerContents.Length; j++)
+                    {
+                        List<string> row = trackerContents[j].Split(",").ToList();
+                        if (row.Count < i)
+                        {
+                            row[1] = (int.Parse(row[1]) + 1).ToString();
+                            row.Add("no");
+                            trackerContents[j] = string.Join(',', row.ToArray());
+                        }
+                            
+                    }
+                }
+            }
         }
 
     }
