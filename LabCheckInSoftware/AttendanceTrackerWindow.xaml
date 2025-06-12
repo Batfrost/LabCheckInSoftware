@@ -89,6 +89,8 @@
                             <RowDefinition Height=".1*"/>
                             <RowDefinition Height=".2*"/>
                             <RowDefinition Height="*"/>
+                            <RowDefinition Height=".1*"/>
+                            <RowDefinition Height=".3*"/>
                         </Grid.RowDefinitions>
                         <Viewbox Grid.Row="1" Stretch="Uniform">
                             <TextBlock Text="What days of the week do you want to track attendance for?" TextDecorations="Underline"/>
@@ -133,6 +135,18 @@
                         <Viewbox Grid.Row="7" Stretch="Uniform">
                             <TextBox x:Name="IDsToTrackTextBox" AcceptsReturn="True" MinWidth="100"/>
                         </Viewbox>
+                        <Grid Grid.Row="12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Viewbox Grid.Column="0" Stretch="Uniform" HorizontalAlignment="Right">
+                                <Label Content="Finally, what's a good name for this tracker? "/>
+                            </Viewbox>
+                            <Viewbox Grid.Column="1" Stretch="Uniform" HorizontalAlignment="Left">
+                                <TextBox x:Name="NameTextBox" MinWidth="100"/>
+                            </Viewbox>
+                        </Grid>
                     </Grid>
                 </Grid>
 
