@@ -51,7 +51,7 @@ namespace TWLogging
             popupGrid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
             popupGrid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
             Viewbox v0 = new Viewbox() { HorizontalAlignment = HorizontalAlignment.Center, Stretch = System.Windows.Media.Stretch.Uniform };
-            TextBlock popupText = new TextBlock() { HorizontalAlignment = HorizontalAlignment.Center, Text = "Please enter the Manager Password. \nIf forgotten, ask Trevor."};
+            TextBlock popupText = new TextBlock() { HorizontalAlignment = HorizontalAlignment.Center, Text = "Please enter the Manager Password. \nIf Forgotten, ask this Software's Creator."};
             v0.Child = popupText;
             popupGrid.Children.Add(v0);
             Grid.SetRow(v0, 0);
@@ -111,6 +111,18 @@ namespace TWLogging
                     incorrectPasswordText.Text = "Password entered at " + DateTime.Now.ToString("h:mm:ss tt") + " is incorrect.";
                 }
             }
+        }
+
+        //Event Handler for opening the Help Information Popup window
+        private void HelpInfoButton_Clicked(object sender, EventArgs e)
+        {
+            var HIW = new HomeHelpInfoWindow
+            {
+                WindowStartupLocation = this.WindowStartupLocation,
+                WindowState = this.WindowState,
+                WindowStyle = this.WindowStyle
+            };
+            HIW.Show();
         }
 
         //Event Handler for attempting to check in a user when 8 characters are entered into the CheckInBox (8 because that's the size of a uID)

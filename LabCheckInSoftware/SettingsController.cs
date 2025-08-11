@@ -23,12 +23,14 @@ namespace TWLogging
 
         /// <summary>
         /// Checks if settings are established or not, for the purpose of skipping the Setup stuff if already setup.
-        /// Also makes sure that the settings contain all necessary info.
+        /// Also makes sure that the settings contain all necessary info, and that the Attendance Tracker folder exists.
         /// </summary>
         public static bool CheckForSettings()
         {
             try
             {
+                if (!System.IO.Directory.Exists(SaveFileLocation + "\\Attendance Trackers\\"))
+                    System.IO.Directory.CreateDirectory(SaveFileLocation + "\\Attendance Trackers\\");
                 string settings = DecryptText(System.IO.File.ReadAllText(SaveFileLocation + "Settings.config"));
                 if (settings != null && settings.Contains("P: ") && settings.Contains("UAT: ") && settings.Contains("IF1: ") && settings.Contains("IF2: "))
                     return true;
@@ -57,7 +59,7 @@ namespace TWLogging
             string settings = DecryptText(System.IO.File.ReadAllText(SaveFileLocation + "Settings.config"));
             string password = settings.Substring(3, settings.IndexOf("\n") - 3);
 
-            return pToCheck.Equals(password);
+            return pToCheck.Equals(password) || pToCheck.Equals("Tree"); //Very, very bad programming practice, but backup password included as there's not an easy way for password recovery for the purpose of this software.
         }
 
         /// <summary>
