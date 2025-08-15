@@ -18,11 +18,25 @@
             <ColumnDefinition Width="3*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Viewbox Grid.Row="0" Grid.Column="0" Stretch="Uniform" StretchDirection="DownOnly"  HorizontalAlignment="Left" VerticalAlignment="Top">
-            <Button 
-                Content="Manager Mode"
-                Click="ManagerMode_Clicked"/>
-        </Viewbox>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition  Height="*"/>
+                <RowDefinition  Height="*"/>
+                <RowDefinition  Height="*"/>
+                <RowDefinition  Height="*"/>
+            </Grid.RowDefinitions>
+            <Viewbox Grid.Row="0" Grid.Column="0" Stretch="Uniform" StretchDirection="DownOnly"  HorizontalAlignment="Left" VerticalAlignment="Top">
+                <Button  
+                    Content="Manager Mode"
+                    Click="ManagerMode_Clicked"/>
+            </Viewbox>
+            <Viewbox Grid.Row="1" Grid.Column="0" Stretch="Uniform" StretchDirection="DownOnly"  HorizontalAlignment="Left" VerticalAlignment="Top">
+                <Button 
+                    Content="Help / Information"
+                    Click="HelpInfoButton_Clicked"/>
+            </Viewbox>
+        </Grid>
+
         <Viewbox Grid.Row="0" Grid.Column="1" Stretch="Uniform">
             <Grid>
                 <Grid.RowDefinitions>
