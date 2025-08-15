@@ -117,53 +117,49 @@ namespace TWLogging
         public static void CheckAttendanceForUser(string uID)
         {
             uID = 'u' + uID.Substring(1);
-            try
+            string[] trackerFiles = Directory.GetFiles(SettingsController.SaveFileLocation + "\\Attendance Trackers", "*", SearchOption.AllDirectories);
+            foreach (string trackerFile in trackerFiles)
             {
-                string[] trackerFiles = Directory.GetFiles(SettingsController.SaveFileLocation + "\\Attendance Trackers", "*", SearchOption.AllDirectories);
-                foreach (string trackerFile in trackerFiles)
+                //Get the row the user is on in the tracker, if -1 then this user isn't in this tracker
+                int userRow = Lookup.LookupUserInFile(trackerFile, uID);
+                if (userRow == -1)
+                    continue;
+
+                
+                string tracker = System.IO.File.ReadAllText(trackerFile);
+                string[] trackerContents = tracker.Split('\n');
+
+                //Figure out if today is a valid day for them to check in for attendance
+                string[] firstRow = trackerContents[0].Split(',');
+                for (int i = 2; i < firstRow.Length; i++)
                 {
-                    //Get the row the user is on in the tracker, if -1 then this user isn't in this tracker
-                    int userRow = Lookup.LookupUserInFile(trackerFile, uID);
-                    if (userRow == -1)
-                        continue;
-
-
-                    string tracker = System.IO.File.ReadAllText(trackerFile);
-                    string[] trackerContents = tracker.Split('\n');
-
-                    //Figure out if today is a valid day for them to check in for attendance
-                    string[] firstRow = trackerContents[0].Split(',');
-                    for (int i = 2; i < firstRow.Length; i++)
+                    if (DateTime.Parse(firstRow[i]) == DateTime.Today)
                     {
-                        if (DateTime.Parse(firstRow[i]) == DateTime.Today)
+                        //Now figure out if this user needs to be marked as here or if they already have been
+                        List<string> rowInfo = trackerContents[userRow].Split(',').ToList();
+                        List<string> newRow = new List<string>(rowInfo);
+                        for (int j = rowInfo.Count; j <= i; j++)
                         {
-                            //Now figure out if this user needs to be marked as here or if they already have been
-                            List<string> rowInfo = trackerContents[userRow].Split(',').ToList();
-                            List<string> newRow = new List<string>(rowInfo);
-                            for (int j = rowInfo.Count; j <= i; j++)
+                            if (j == i)
+                                newRow.Add("yes");
+                            else
                             {
-                                if (j == i)
-                                    newRow.Add("yes");
-                                else
-                                {
-                                    //If there is more than just today that needs attendance to be marked, that means this user was absent the previous times
-                                    newRow[1] = (int.Parse(newRow[1]) + 1).ToString();
-                                    newRow.Add("no");
-                                }
+                                //If there is more than just today that needs attendance to be marked, that means this user was absent the previous times
+                                newRow[1] = (int.Parse(newRow[1]) + 1).ToString();
+                                newRow.Add("no");
                             }
-                            //Now to rejoin the row and all rows together and save
-                            trackerContents[userRow] = string.Join(',', newRow);
-                            tracker = string.Join('\n', trackerContents);
-                            System.IO.File.WriteAllText(trackerFile, tracker);
-                            break;
                         }
-                        //If the date getting checked for the first row header is after today, then today isn't explicitly marked on the tracker
-                        if (DateTime.Parse(firstRow[i]) > DateTime.Today)
-                            break;
+                        //Now to rejoin the row and all rows together and save
+                        trackerContents[userRow] = string.Join(',', newRow);
+                        tracker = string.Join('\n', trackerContents);
+                        System.IO.File.WriteAllText(trackerFile, tracker);
+                        break;
                     }
+                    //If the date getting checked for the first row header is after today, then today isn't explicitly marked on the tracker
+                    if (DateTime.Parse(firstRow[i]) > DateTime.Today)
+                        break;
                 }
             }
-            catch { }
         }
 
         /// <summary>

@@ -94,14 +94,13 @@ namespace TWLogging
             Random r = new Random();
             char[] chars = new char[10] { 'a', 't', 'k', 'l', 'w', 'q', 'p', 'P', 'A', 'T' };
             string encryptedText = "";
-            int evenFactor = (text.Length % 2 == 0) ? 0 : 1;
-            for (int i = text.Length - 1; i >= 1; i -= 2)
+            for (int i = text.Length - 1; i >= 0; i -= 2)
             {
-                encryptedText += text[i - (1 + evenFactor)];
-                encryptedText += text[i - evenFactor];
+                encryptedText += text[i - 1];
+                encryptedText += text[i];
                 encryptedText += chars[r.Next(9)];
             }
-            
+
             return encryptedText;
         }
 
